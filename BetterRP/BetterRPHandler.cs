@@ -16,35 +16,12 @@ using Mistaken.BetterRP.Ambients;
 
 namespace Mistaken.BetterRP
 {
+    /// <inheritdoc/>
     public class BetterRPHandler : Module
     {
-        internal BetterRPHandler(PluginHandler plugin)
-            : base(plugin)
-        {
-        }
-
-        public override string Name => "BetterRP";
-
-        public override void OnEnable()
-        {
-            Exiled.Events.Handlers.Server.RoundEnded += this.Server_RoundEnded;
-            Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
-            Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
-            Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
-            Exiled.Events.Handlers.Player.Hurting += this.Player_Hurting;
-            Exiled.Events.Handlers.Player.ItemUsed += this.Player_ItemUsed;
-        }
-
-        public override void OnDisable()
-        {
-            Exiled.Events.Handlers.Server.RoundEnded -= this.Server_RoundEnded;
-            Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
-            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
-            Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
-            Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
-            Exiled.Events.Handlers.Player.ItemUsed -= this.Player_ItemUsed;
-        }
-
+        /// <summary>
+        /// CI Announcments.
+        /// </summary>
         public static readonly string[] CIAnnouncments = new string[]
         {
             "pitch_0.97 .g6 WARNING . DETECTED UNAUTHORIZED ENTRANCE ZONE SECURITY SYSTEM ACCESS ATTEMPT . POSSIBLE UNAUTHORIZED PERSONNEL IN THE FACILITY . KEEP CAUTION .g6",
@@ -56,12 +33,42 @@ namespace Mistaken.BetterRP
             "pitch_0.97 ALL SECURITY SYSTEMS DEACTIVATED . . . pitch_0.85 WARNING . EXECUTIVE SYSTEM ACCESS DENIED . SECURITY BREACH PROTOCOL IN EFFECT pitch_0.2 .g4 pitch_0.85 UNAUTHORIZED PERSONNEL IN THE FACILITY . CASSIE SYSTEM CORE LOCKDOWN IN PROGRESS pitch_0.2 .g6",
         };
 
+        /// <inheritdoc/>
+        public override string Name => "BetterRP";
+
+        /// <inheritdoc/>
+        public override void OnEnable()
+        {
+            Exiled.Events.Handlers.Server.RoundEnded += this.Server_RoundEnded;
+            Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
+            Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
+            Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
+            Exiled.Events.Handlers.Player.Hurting += this.Player_Hurting;
+            Exiled.Events.Handlers.Player.ItemUsed += this.Player_ItemUsed;
+        }
+
+        /// <inheritdoc/>
+        public override void OnDisable()
+        {
+            Exiled.Events.Handlers.Server.RoundEnded -= this.Server_RoundEnded;
+            Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
+            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
+            Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
+            Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
+            Exiled.Events.Handlers.Player.ItemUsed -= this.Player_ItemUsed;
+        }
+
         internal static readonly List<int> UsedAmbients = new List<int>();
 
         internal static bool AmbientLock { get; set; } = false;
 
         internal static string GetAmbient(out bool jammed, int id = -1)
             => GetAmbient(0, out jammed, id);
+
+        internal BetterRPHandler(PluginHandler plugin)
+            : base(plugin)
+        {
+        }
 
         private const float DefaultChance = 10;
 
