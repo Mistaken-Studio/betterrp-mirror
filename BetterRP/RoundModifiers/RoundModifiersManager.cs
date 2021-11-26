@@ -1,10 +1,10 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="RoundModifiersManager.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-/*
+
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Interactables.Interobjects.DoorUtils;
@@ -18,11 +18,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Mistaken.BetterRP
+namespace Mistaken.BetterRP.RoundModifiers
 {
     public class RoundModifiersManager
     {
         public static RoundModifiersManager Instance { get; private set; }
+
         public static void SetInstance()
             => Instance = new RoundModifiersManager();
 
@@ -442,4 +443,3 @@ namespace Mistaken.BetterRP
         }
     }
 }
-*/

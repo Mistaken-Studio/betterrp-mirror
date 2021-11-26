@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="PluginHandler.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
@@ -34,6 +34,12 @@ namespace Mistaken.BetterRP
             Instance = this;
 
             new BetterRPHandler(this);
+            new AmbientHandler(this);
+            new ClearPostRoundHandler(this);
+            new AdrenalinHandler(this);
+            new BetterHurtEffectsHandler(this);
+
+            new RoundModifiers.RoundModifiersHandler(this);
 
             API.Diagnostics.Module.OnEnable(this);
 
