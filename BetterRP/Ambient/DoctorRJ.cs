@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="DoctorRJ.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
@@ -20,13 +20,13 @@ namespace Mistaken.BetterRP.Ambients
         {
             var tor = base.CanPlay();
             if (!tor) return tor;
-            BetterRPHandler.AmbientLock = true;
+            AmbientHandler.AmbientLock = true;
             API.Diagnostics.Module.CallSafeDelayed(
                 120,
                 () =>
                 {
                     Cassie.Message("ATTENTION . SECURITY FORCE NATO_E 6 . SERPENTS HAND DETECTED . DOCTOR R J DESIGNATED FOR IMMEDIATE TERMINATION .G3 PITCH_0.1 .G3", false, false);
-                    BetterRPHandler.AmbientLock = false;
+                    AmbientHandler.AmbientLock = false;
                 },
                 "Ambients.DoctorRJ");
             return tor;
