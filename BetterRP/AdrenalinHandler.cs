@@ -6,12 +6,14 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Exiled.API.Features;
 using MEC;
 using Mistaken.API;
 using Mistaken.API.Diagnostics;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
+using PlayerStatsSystem;
 
 namespace Mistaken.BetterRP
 {
@@ -26,7 +28,7 @@ namespace Mistaken.BetterRP
         {
             Exiled.Events.Handlers.Player.Hurting += this.Player_Hurting;
             Exiled.Events.Handlers.Player.ItemUsed += this.Player_ItemUsed;
-            Exiled.Events.Handlers.Server.WaitingForPlayers += Server_WaitingForPlayers;
+            Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
         }
 
         /// <inheritdoc/>
@@ -34,7 +36,7 @@ namespace Mistaken.BetterRP
         {
             Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
             Exiled.Events.Handlers.Player.ItemUsed -= this.Player_ItemUsed;
-            Exiled.Events.Handlers.Server.WaitingForPlayers -= Server_WaitingForPlayers;
+            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
         }
 
         internal AdrenalinHandler(PluginHandler plugin)
@@ -46,7 +48,7 @@ namespace Mistaken.BetterRP
 
         private void Server_WaitingForPlayers()
         {
-            adrenalineNotReady.Clear();
+            this.adrenalineNotReady.Clear();
         }
 
         private void Player_ItemUsed(Exiled.Events.EventArgs.UsedItemEventArgs ev)
@@ -65,26 +67,36 @@ namespace Mistaken.BetterRP
             if (!ev.Target.IsHuman)
                 return;
 
-            if (ev.Amount >= ev.Target.Health + (ev.Target.ArtificialHealth * ev.Target.ReferenceHub.playerStats.ArtificialNormalRatio))
+            if (ev.Amount >= ev.Target.Health + (ev.Target.ArtificialHealth * ((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1])._activeProcesses.LastOrDefault().Efficacy))
                 return;
 
-            if (
-                ev.DamageType == DamageTypes.Com15 ||
-                ev.DamageType == DamageTypes.E11SR ||
-                ev.DamageType == DamageTypes.Grenade ||
-                ev.DamageType == DamageTypes.AK ||
-                ev.DamageType == DamageTypes.Shotgun ||
-                ev.DamageType == DamageTypes.Revolver ||
-                ev.DamageType == DamageTypes.Logicer ||
-                ev.DamageType == DamageTypes.MicroHID ||
-                ev.DamageType == DamageTypes.FSP9 ||
-                ev.DamageType == DamageTypes.CrossVec ||
-                ev.DamageType == DamageTypes.Scp0492 ||
-                ev.DamageType == DamageTypes.Scp939 ||
-                ev.DamageType == DamageTypes.Com18)
+            switch (ev.Handler.Type)
             {
-                if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
-                    this.CallDelayed(0.1f, () => ActivateAdrenalin(ev.Target), "Adrenalin");
+                case Exiled.API.Enums.DamageType.Firearm:
+                case Exiled.API.Enums.DamageType.MicroHid:
+                case Exiled.API.Enums.DamageType.Explosion:
+                    {
+                        if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
+                            this.CallDelayed(0.1f, () => this.ActivateAdrenalin(ev.Target), "Adrenalin");
+                        return;
+                    }
+
+                case Exiled.API.Enums.DamageType.Scp:
+                    {
+                        switch (ev.Attacker.Role)
+                        {
+                            case RoleType.Scp93953:
+                            case RoleType.Scp93989:
+                            case RoleType.Scp0492:
+                                {
+                                    if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
+                                        this.CallDelayed(0.1f, () => this.ActivateAdrenalin(ev.Target), "Adrenalin");
+                                    return;
+                                }
+                        }
+
+                        return;
+                    }
             }
         }
 

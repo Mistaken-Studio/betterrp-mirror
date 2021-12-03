@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="BetterRPHandler.cs" company="Mistaken">
+// <copyright file="RoundModifiersHandler.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------

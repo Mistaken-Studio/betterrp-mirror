@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="BetterRPHandler.cs" company="Mistaken">
+// <copyright file="BetterHurtEffectsHandler.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -26,7 +26,8 @@ namespace Mistaken.BetterRP
         public override void OnEnable()
         {
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
-            Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
+
+            // Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
             Exiled.Events.Handlers.Player.Hurting += this.Player_Hurting;
         }
 
@@ -34,7 +35,8 @@ namespace Mistaken.BetterRP
         public override void OnDisable()
         {
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
-            Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
+
+            // Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
             Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
         }
 
@@ -43,48 +45,58 @@ namespace Mistaken.BetterRP
         {
         }
 
-        private readonly List<(float HPTreshold, EffectType Type)> EffectsPerHP = new List<(float HPTreshold, EffectType Type)>()
+        private readonly List<(float HPTreshold, EffectType Type)> effectsPerHP = new List<(float HPTreshold, EffectType Type)>()
         {
             (20, EffectType.Deafened),
             (15, EffectType.Concussed),
             (10, EffectType.Disabled),
             (5, EffectType.Blinded),
         };
+
         private readonly Dictionary<Player, List<CustomPlayerEffects.PlayerEffect>> healthEffects = new Dictionary<Player, List<CustomPlayerEffects.PlayerEffect>>();
 
         private void Player_Hurting(Exiled.Events.EventArgs.HurtingEventArgs ev)
         {
             if (!ev.Target.IsHuman)
                 return;
-            
-            if (ev.Amount >= ev.Target.Health + (ev.Target.ArtificialHealth * ev.Target.ReferenceHub.playerStats.ArtificialNormalRatio))
+
+            if (ev.Amount >= ev.Target.Health + (ev.Target.ArtificialHealth * ((PlayerStatsSystem.AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1])._activeProcesses.LastOrDefault().Efficacy))
                 return;
-            
+
             if (UnityEngine.Random.Range(0, 100) < ev.Amount / 5)
             {
-                if (ev.DamageType == DamageTypes.Scp0492)
+                if (ev.Attacker.Role == RoleType.Scp0492)
                     ev.Target.EnableEffect<CustomPlayerEffects.Poisoned>();
             }
 
-            if (ev.HitInformation.Tool == DamageTypes.Bleeding)
+            if (ev.Handler.Type == DamageType.Bleeding)
                 ev.Amount *= 0.45f;
 
-            if (
-                ev.DamageType == DamageTypes.Com15 ||
-                ev.DamageType == DamageTypes.E11SR ||
-                ev.DamageType == DamageTypes.Grenade ||
-                ev.DamageType == DamageTypes.AK ||
-                ev.DamageType == DamageTypes.Shotgun ||
-                ev.DamageType == DamageTypes.Revolver ||
-                ev.DamageType == DamageTypes.Logicer ||
-                ev.DamageType == DamageTypes.FSP9 ||
-                ev.DamageType == DamageTypes.CrossVec ||
-                ev.DamageType == DamageTypes.Scp939)
+            bool isSpecificDmgType = false;
+
+            switch (ev.Handler.Type)
+            {
+                case DamageType.Firearm:
+                case DamageType.Explosion:
+                    isSpecificDmgType = true;
+
+                    break;
+
+                case DamageType.Scp:
+                    {
+                        if (ev.Attacker.Role == RoleType.Scp93953 || ev.Attacker.Role == RoleType.Scp93989)
+                            isSpecificDmgType = true;
+                    }
+
+                    break;
+            }
+
+            if (isSpecificDmgType)
             {
                 if (UnityEngine.Random.Range(0, 101) < ev.Amount / 5)
                     ev.Target.EnableEffect<CustomPlayerEffects.Bleeding>();
             }
-            else if (ev.DamageType == DamageTypes.Falldown)
+            else if (ev.Handler.Type == DamageType.Falldown)
             {
                 var rand = UnityEngine.Random.Range(0, 101);
                 if (rand < (ev.Amount - 50) / 5)
@@ -111,10 +123,10 @@ namespace Mistaken.BetterRP
                     if (!this.healthEffects.TryGetValue(player, out var effects))
                         this.healthEffects.Add(player, new List<CustomPlayerEffects.PlayerEffect>());
 
-                    foreach (var item in EffectsPerHP)
+                    foreach (var item in this.effectsPerHP)
                     {
                         CustomPlayerEffects.PlayerEffect effect = player.GetEffect(item.Type);
-                        if(player.Health <= item.HPTreshold)
+                        if (player.Health <= item.HPTreshold)
                         {
                             if (!effect.IsEnabled)
                             {
@@ -122,7 +134,7 @@ namespace Mistaken.BetterRP
                                 this.healthEffects[player].Add(effect);
                             }
                         }
-                        else if(this.healthEffects[player].Contains(effect))
+                        else if (this.healthEffects[player].Contains(effect))
                         {
                             if (effect.IsEnabled)
                             {
@@ -142,8 +154,8 @@ namespace Mistaken.BetterRP
         [System.Obsolete("Wymagane testy czy to jest dalej potrzebne")]
         private void Player_ChangingRole(Exiled.Events.EventArgs.ChangingRoleEventArgs ev)
         {
-            /*if (ev.NewRole == RoleType.Spectator)
-                this.CallDelayed(0.2f, () => ev.Player.DisableAllEffects(), "ClearEffects");*/
+            if (ev.NewRole == RoleType.Spectator)
+                this.CallDelayed(0.2f, () => ev.Player.DisableAllEffects(), "ClearEffects");
         }
 
         private void Server_RoundStarted()

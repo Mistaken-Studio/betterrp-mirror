@@ -4,7 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-
 using System;
 using System.Collections.Generic;
 using CommandSystem;
@@ -51,6 +50,5 @@ namespace Mistaken.BetterRP.RoundModifiers
 
         public string GetUsage() =>
             "rpevents (Id)";
-
     }
 }
