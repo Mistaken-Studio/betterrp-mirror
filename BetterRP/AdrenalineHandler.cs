@@ -1,15 +1,12 @@
 // -----------------------------------------------------------------------
-// <copyright file="AdrenalinHandler.cs" company="Mistaken">
+// <copyright file="AdrenalineHandler.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Exiled.API.Features;
-using MEC;
-using Mistaken.API;
 using Mistaken.API.Diagnostics;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
@@ -18,7 +15,7 @@ using PlayerStatsSystem;
 namespace Mistaken.BetterRP
 {
     /// <inheritdoc/>
-    public class AdrenalinHandler : Module
+    public class AdrenalineHandler : Module
     {
         /// <inheritdoc/>
         public override string Name => "AdrenalinHandler";
@@ -39,7 +36,7 @@ namespace Mistaken.BetterRP
             Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
         }
 
-        internal AdrenalinHandler(PluginHandler plugin)
+        internal AdrenalineHandler(PluginHandler plugin)
             : base(plugin)
         {
         }
@@ -77,7 +74,7 @@ namespace Mistaken.BetterRP
                 case Exiled.API.Enums.DamageType.Explosion:
                     {
                         if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
-                            this.CallDelayed(0.1f, () => this.ActivateAdrenalin(ev.Target), "Adrenalin");
+                            this.CallDelayed(0.1f, () => this.ActivateAdrenaline(ev.Target), "Adrenaline");
                         return;
                     }
 
@@ -90,7 +87,7 @@ namespace Mistaken.BetterRP
                             case RoleType.Scp0492:
                                 {
                                     if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
-                                        this.CallDelayed(0.1f, () => this.ActivateAdrenalin(ev.Target), "Adrenalin");
+                                        this.CallDelayed(0.1f, () => this.ActivateAdrenaline(ev.Target), "Adrenaline");
                                     return;
                                 }
                         }
@@ -100,9 +97,9 @@ namespace Mistaken.BetterRP
             }
         }
 
-        private void ActivateAdrenalin(Player player)
+        private void ActivateAdrenaline(Player player)
         {
-            player.SetGUI("adrenalin", PseudoGUIPosition.BOTTOM, "You feel <color=yellow>adrenaline</color> hitting", 5);
+            player.SetGUI("adrenaline", PseudoGUIPosition.BOTTOM, "You feel <color=yellow>adrenaline</color> hitting", 5);
             player.EnableEffect<CustomPlayerEffects.Invigorated>(15, true);
             var cola = player.GetEffect(Exiled.API.Enums.EffectType.Scp207);
             var oldColaIntensityValue = cola.Intensity;
@@ -121,7 +118,7 @@ namespace Mistaken.BetterRP
                 },
                 "Restore");
             this.adrenalineNotReady.Add(player);
-            this.CallDelayed(90, () => this.adrenalineNotReady.Remove(player), "Ready Adrenalin");
+            this.CallDelayed(90, () => this.adrenalineNotReady.Remove(player), "Ready Adrenaline");
         }
     }
 }

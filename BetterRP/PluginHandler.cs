@@ -36,7 +36,7 @@ namespace Mistaken.BetterRP
             new BetterRPHandler(this);
             new AmbientHandler(this);
             new ClearPostRoundHandler(this);
-            new AdrenalinHandler(this);
+            new AdrenalineHandler(this);
             new BetterHurtEffectsHandler(this);
 
             new RoundModifiers.RoundModifiersHandler(this);

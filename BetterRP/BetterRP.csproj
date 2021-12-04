@@ -81,7 +81,7 @@
     <Compile Include="Ambient\Spotted035.cs" />
     <Compile Include="AmbientHandler.cs" />
     <Compile Include="BetterHurtEffectsHandler.cs" />
-    <Compile Include="AdrenalinHandler.cs" />
+    <Compile Include="AdrenalineHandler.cs" />
     <Compile Include="ClearPostRoundHandler.cs" />
     <Compile Include="BetterRPHandler.cs" />
     <Compile Include="ForceAmbient.cs" />
