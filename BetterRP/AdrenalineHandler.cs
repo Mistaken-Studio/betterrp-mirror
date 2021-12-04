@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using Mistaken.API.Diagnostics;
 using Mistaken.API.Extensions;
@@ -64,14 +65,14 @@ namespace Mistaken.BetterRP
             if (!ev.Target.IsHuman)
                 return;
 
-            if (ev.Amount >= ev.Target.Health + (ev.Target.ArtificialHealth * ((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1])._activeProcesses.LastOrDefault().Efficacy))
+            if (((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1]).ServerProcessDamage(ev.Amount) >= ev.Target.Health)
                 return;
 
             switch (ev.Handler.Type)
             {
-                case Exiled.API.Enums.DamageType.Firearm:
-                case Exiled.API.Enums.DamageType.MicroHid:
-                case Exiled.API.Enums.DamageType.Explosion:
+                case DamageType.Firearm:
+                case DamageType.MicroHid:
+                case DamageType.Explosion:
                     {
                         if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
                             this.CallDelayed(0.1f, () => this.ActivateAdrenaline(ev.Target), "Adrenaline");
@@ -101,10 +102,10 @@ namespace Mistaken.BetterRP
         {
             player.SetGUI("adrenaline", PseudoGUIPosition.BOTTOM, "You feel <color=yellow>adrenaline</color> hitting", 5);
             player.EnableEffect<CustomPlayerEffects.Invigorated>(15, true);
-            var cola = player.GetEffect(Exiled.API.Enums.EffectType.Scp207);
-            var oldColaIntensityValue = cola.Intensity;
-            var oldColaDurationValue = cola.Duration;
-            player.EnableEffect<CustomPlayerEffects.Scp207>(5, true);
+            var movementBoost = player.GetEffect(EffectType.MovementBoost);
+            var oldMovementBoostIntensityValue = movementBoost.Intensity;
+            var oldMovementBoostDurationValue = movementBoost.Duration;
+            player.EnableEffect<CustomPlayerEffects.MovementBoost>(5, true);
             player.ArtificialHealth += 7;
             this.CallDelayed(
                 6,
@@ -113,8 +114,10 @@ namespace Mistaken.BetterRP
                     if (!player.IsConnected)
                         return;
 
-                    if (oldColaIntensityValue > 0)
-                        player.ChangeEffectIntensity<CustomPlayerEffects.Scp207>(oldColaIntensityValue);
+                    if (oldMovementBoostDurationValue > 0)
+                        player.EnableEffect<CustomPlayerEffects.MovementBoost>(oldMovementBoostDurationValue, true);
+                    if (oldMovementBoostIntensityValue > 0)
+                        player.ChangeEffectIntensity<CustomPlayerEffects.MovementBoost>(oldMovementBoostIntensityValue);
                 },
                 "Restore");
             this.adrenalineNotReady.Add(player);

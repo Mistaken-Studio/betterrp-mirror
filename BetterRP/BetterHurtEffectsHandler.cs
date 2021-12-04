@@ -13,6 +13,7 @@ using Mistaken.API;
 using Mistaken.API.Diagnostics;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
+using PlayerStatsSystem;
 
 namespace Mistaken.BetterRP
 {
@@ -60,7 +61,7 @@ namespace Mistaken.BetterRP
             if (!ev.Target.IsHuman)
                 return;
 
-            if (ev.Amount >= ev.Target.Health + (ev.Target.ArtificialHealth * ((PlayerStatsSystem.AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1])._activeProcesses.LastOrDefault().Efficacy))
+            if (((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1]).ServerProcessDamage(ev.Amount) >= ev.Target.Health)
                 return;
 
             if (UnityEngine.Random.Range(0, 100) < ev.Amount / 5)
