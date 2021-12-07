@@ -24,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <DocumentationFile>bin\Debug\Mistaken.BetterRP.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,14 +79,19 @@
     <Compile Include="Ambient\SCP131A.cs" />
     <Compile Include="Ambient\SCP538.cs" />
     <Compile Include="Ambient\Spotted035.cs" />
+    <Compile Include="AmbientHandler.cs" />
+    <Compile Include="BetterHurtEffectsHandler.cs" />
+    <Compile Include="AdrenalineHandler.cs" />
+    <Compile Include="ClearPostRoundHandler.cs" />
     <Compile Include="BetterRPHandler.cs" />
     <Compile Include="ForceAmbient.cs" />
-    <Compile Include="ForceRPEvents.cs" />
+    <Compile Include="RoundModifiers\RoundModifiersHandler.cs" />
+    <Compile Include="RoundModifiers\ForceRPEvents.cs" />
     <Compile Include="PluginHandler.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RespawnManagerPatch.cs" />
-    <Compile Include="RoundModifiersManager.cs" />
+    <Compile Include="RoundModifiers\RoundModifiersManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

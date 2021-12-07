@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="ForceAmbient.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
@@ -29,11 +29,11 @@ namespace Mistaken.BetterRP
             bool jammed = true;
             if (args.Length == 0)
             {
-                msg = BetterRPHandler.GetAmbient(out jammed);
+                msg = AmbientHandler.GetAmbient(out jammed);
             }
             else if (int.TryParse(args[0], out int ambientId))
             {
-                msg = BetterRPHandler.GetAmbient(out jammed, ambientId);
+                msg = AmbientHandler.GetAmbient(out jammed, ambientId);
             }
 
             if (msg != null)

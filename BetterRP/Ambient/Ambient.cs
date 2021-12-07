@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="Ambient.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
@@ -18,7 +18,7 @@ namespace Mistaken.BetterRP.Ambients
 
         public virtual bool CanPlay()
         {
-            return !BetterRPHandler.UsedAmbients.Contains(this.Id);
+            return !AmbientHandler.UsedAmbients.Contains(this.Id);
         }
     }
 }

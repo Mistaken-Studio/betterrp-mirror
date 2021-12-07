@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="FacilityManager.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
@@ -21,13 +21,13 @@ namespace Mistaken.BetterRP.Ambients
             var tor = base.CanPlay();
             if (!tor)
                 return tor;
-            BetterRPHandler.AmbientLock = true;
+            AmbientHandler.AmbientLock = true;
             API.Diagnostics.Module.CallSafeDelayed(
                 120,
                 () =>
                 {
                     Cassie.Message(".G5 PITCH_0.84 .G2 PITCH_0.98 FACILITY MANAGER FOUND DEAD IN INTERSECTION C 2 .G4 PITCH_0.95 TACTICAL TEAM OMEGA 1 REPORT TO SECURITY CHECKPOINT 5 JAM_020_3 IMMEDIATELY", false, false);
-                    BetterRPHandler.AmbientLock = false;
+                    AmbientHandler.AmbientLock = false;
                 },
                 "Ambients.FacilityManager");
             return tor;

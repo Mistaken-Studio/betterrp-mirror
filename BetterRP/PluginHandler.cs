@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="PluginHandler.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
@@ -26,7 +26,7 @@ namespace Mistaken.BetterRP
         public override PluginPriority Priority => PluginPriority.Default;
 
         /// <inheritdoc/>
-        public override Version RequiredExiledVersion => new Version(3, 0, 5);
+        public override Version RequiredExiledVersion => new Version(4, 1, 2);
 
         /// <inheritdoc/>
         public override void OnEnabled()
@@ -34,6 +34,12 @@ namespace Mistaken.BetterRP
             Instance = this;
 
             new BetterRPHandler(this);
+            new AmbientHandler(this);
+            new ClearPostRoundHandler(this);
+            new AdrenalineHandler(this);
+            new BetterHurtEffectsHandler(this);
+
+            new RoundModifiers.RoundModifiersHandler(this);
 
             API.Diagnostics.Module.OnEnable(this);
 

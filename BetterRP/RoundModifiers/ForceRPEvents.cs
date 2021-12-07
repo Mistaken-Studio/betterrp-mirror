@@ -1,19 +1,16 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="ForceRPEvents.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-/*
 using System;
 using System.Collections.Generic;
 using CommandSystem;
-using Exiled.API.Features;
 using Mistaken.API.Commands;
 
-namespace Mistaken.BetterRP
+namespace Mistaken.BetterRP.RoundModifiers
 {
-
     [CommandSystem.CommandHandler(typeof(CommandSystem.RemoteAdminCommandHandler))]
     internal class ForceRPEvents : IBetterCommand, IPermissionLocked
     {
@@ -53,7 +50,5 @@ namespace Mistaken.BetterRP
 
         public string GetUsage() =>
             "rpevents (Id)";
-
     }
 }
-*/

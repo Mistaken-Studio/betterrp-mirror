@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="CASSIECIvsMTF.cs" company="Mistaken">
 // Copyright (c) Mistaken. All rights reserved.
 // </copyright>
@@ -23,14 +23,14 @@ namespace Mistaken.BetterRP.Ambients
             var tor = base.CanPlay();
             if (!tor) return false;
             if (RealPlayers.List.Where(p => p.Team == Team.CHI).Count() <= RealPlayers.List.Where(p => p.Team == Team.MTF).Count()) return false;
-            BetterRPHandler.AmbientLock = true;
+            AmbientHandler.AmbientLock = true;
             API.Diagnostics.Module.CallSafeDelayed(
                 120,
                 () =>
                 {
                     if (RealPlayers.List.Where(p => p.Team == Team.CHI).Count() < RealPlayers.List.Where(p => p.Team == Team.MTF).Count())
                         Cassie.Message("PITCH_0.2 .G4 PITCH_2 . PITCH_0.2 .G4 PITCH_0.8 ATTENTION . PITCH_0.7 .G6 PITCH_0.9 CASSIE JAM_018_5 SYSTEM .G6 . NOW . UNDER . FOUNDATION . COMMAND PITCH_0.1 .G3 PITCH_0.94 NEW OVERRIDE DETECTED .G6 ", false, false);
-                    BetterRPHandler.AmbientLock = false;
+                    AmbientHandler.AmbientLock = false;
                 },
                 "Ambients.CASSIECIvsMTF");
             return tor;
