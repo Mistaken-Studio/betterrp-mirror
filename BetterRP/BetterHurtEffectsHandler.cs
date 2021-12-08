@@ -64,7 +64,7 @@ namespace Mistaken.BetterRP
             if (((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1]).ServerProcessDamage(ev.Amount) >= ev.Target.Health)
                 return;
 
-            if (UnityEngine.Random.Range(0, 100) < ev.Amount / 5)
+            if (!(ev.Attacker is null) && UnityEngine.Random.Range(0, 100) < ev.Amount / 5)
             {
                 if (ev.Attacker.Role == RoleType.Scp0492)
                     ev.Target.EnableEffect<CustomPlayerEffects.Poisoned>();
@@ -85,7 +85,7 @@ namespace Mistaken.BetterRP
 
                 case DamageType.Scp:
                     {
-                        if (ev.Attacker.Role == RoleType.Scp93953 || ev.Attacker.Role == RoleType.Scp93989)
+                        if (!(ev.Attacker is null) && (ev.Attacker.Role == RoleType.Scp93953 || ev.Attacker.Role == RoleType.Scp93989))
                             isSpecificDmgType = true;
                     }
 
