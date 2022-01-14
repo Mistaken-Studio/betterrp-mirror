@@ -7,6 +7,7 @@
 using System;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using HarmonyLib;
 
 namespace Mistaken.BetterRP
 {
@@ -32,6 +33,7 @@ namespace Mistaken.BetterRP
         public override void OnEnabled()
         {
             Instance = this;
+            this.harmony = new Harmony("betterrp.patch");
 
             new BetterRPHandler(this);
             new AmbientHandler(this);
@@ -41,6 +43,8 @@ namespace Mistaken.BetterRP
 
             new RoundModifiers.RoundModifiersHandler(this);
 
+            this.harmony.PatchAll();
+
             API.Diagnostics.Module.OnEnable(this);
 
             base.OnEnabled();
@@ -49,11 +53,15 @@ namespace Mistaken.BetterRP
         /// <inheritdoc/>
         public override void OnDisabled()
         {
+            this.harmony.UnpatchAll();
+
             API.Diagnostics.Module.OnDisable(this);
 
             base.OnDisabled();
         }
 
         internal static PluginHandler Instance { get; private set; }
+
+        private Harmony harmony;
     }
 }
