@@ -85,6 +85,7 @@
     <Compile Include="ClearPostRoundHandler.cs" />
     <Compile Include="BetterRPHandler.cs" />
     <Compile Include="ForceAmbient.cs" />
+    <Compile Include="AnnounceScpTerminationPatch.cs" />
     <Compile Include="RoundModifiers\RoundModifiersHandler.cs" />
     <Compile Include="RoundModifiers\ForceRPEvents.cs" />
     <Compile Include="PluginHandler.cs" />
