@@ -24,8 +24,8 @@ namespace Mistaken.BetterRP
 
                 return false;
             }
-            else
-                return true;
+
+            return true;
         }
     }
 }
