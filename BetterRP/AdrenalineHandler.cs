@@ -65,7 +65,7 @@ namespace Mistaken.BetterRP
             if (!ev.Target.IsHuman)
                 return;
 
-            if (((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1]).ServerProcessDamage(ev.Amount) >= ev.Target.Health)
+            if (ev.Target.WillDie(ev.Handler.Base))
                 return;
 
             switch (ev.Handler.Type)
@@ -79,7 +79,7 @@ namespace Mistaken.BetterRP
                         return;
                     }
 
-                case Exiled.API.Enums.DamageType.Scp:
+                case DamageType.Scp:
                     {
                         switch (ev.Attacker.Role)
                         {
