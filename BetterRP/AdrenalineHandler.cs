@@ -65,7 +65,7 @@ namespace Mistaken.BetterRP
             if (!ev.Target.IsHuman)
                 return;
 
-            if (((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1]).ServerProcessDamage(ev.Amount) >= ev.Target.Health)
+            if (ev.Target.WillDie(ev.Handler.Base))
                 return;
 
             switch (ev.Handler.Type)
@@ -73,26 +73,11 @@ namespace Mistaken.BetterRP
                 case DamageType.Firearm:
                 case DamageType.MicroHid:
                 case DamageType.Explosion:
+                case DamageType.Scp939:
+                case DamageType.Scp0492:
                     {
                         if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
                             this.CallDelayed(0.1f, () => this.ActivateAdrenaline(ev.Target), "Adrenaline");
-                        return;
-                    }
-
-                case Exiled.API.Enums.DamageType.Scp:
-                    {
-                        switch (ev.Attacker.Role)
-                        {
-                            case RoleType.Scp93953:
-                            case RoleType.Scp93989:
-                            case RoleType.Scp0492:
-                                {
-                                    if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
-                                        this.CallDelayed(0.1f, () => this.ActivateAdrenaline(ev.Target), "Adrenaline");
-                                    return;
-                                }
-                        }
-
                         return;
                     }
             }
@@ -105,8 +90,8 @@ namespace Mistaken.BetterRP
             var movementBoost = player.GetEffect(EffectType.MovementBoost);
             var oldMovementBoostIntensityValue = movementBoost.Intensity;
             var oldMovementBoostDurationValue = movementBoost.Duration;
-            player.EnableEffect<CustomPlayerEffects.MovementBoost>(5, true);
-            player.ArtificialHealth += 7;
+            player.ChangeEffectIntensity(EffectType.MovementBoost, 10, 5);
+            player.ActiveArtificialHealthProcesses.Add(new AhpStat.AhpProcess(10, 10, 1, 1, 5, false));
             this.CallDelayed(
                 6,
                 () =>
