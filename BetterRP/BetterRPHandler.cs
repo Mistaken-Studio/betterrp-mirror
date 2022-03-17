@@ -32,12 +32,14 @@ namespace Mistaken.BetterRP
         public override void OnEnable()
         {
             Exiled.Events.Handlers.Player.ItemUsed += this.Player_ItemUsed;
+            Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
         }
 
         /// <inheritdoc/>
         public override void OnDisable()
         {
             Exiled.Events.Handlers.Player.ItemUsed -= this.Player_ItemUsed;
+            Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
         }
 
         internal BetterRPHandler(PluginHandler plugin)
@@ -52,6 +54,20 @@ namespace Mistaken.BetterRP
                 ev.Player.DisableEffect(Exiled.API.Enums.EffectType.Bleeding);
                 ev.Player.DisableEffect(Exiled.API.Enums.EffectType.Poisoned);
             }
+        }
+
+        private void Player_ChangingRole(Exiled.Events.EventArgs.ChangingRoleEventArgs ev)
+        {
+            if (ev.NewRole != RoleType.ChaosConscript)
+                return;
+
+            if (ev.Lite)
+                return;
+
+            this.CallDelayed(0.5f, () =>
+            {
+                ev.Player.Position = new UnityEngine.Vector3(-55, 989, -50);
+            });
         }
     }
 }
