@@ -25,7 +25,7 @@ namespace Mistaken.BetterRP
         public override void OnEnable()
         {
             Exiled.Events.Handlers.Player.Hurting += this.Player_Hurting;
-            Exiled.Events.Handlers.Player.ItemUsed += this.Player_ItemUsed;
+            Exiled.Events.Handlers.Player.UsedItem += this.Player_UsedItem;
             Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
         }
 
@@ -33,7 +33,7 @@ namespace Mistaken.BetterRP
         public override void OnDisable()
         {
             Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
-            Exiled.Events.Handlers.Player.ItemUsed -= this.Player_ItemUsed;
+            Exiled.Events.Handlers.Player.UsedItem -= this.Player_UsedItem;
             Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
         }
 
@@ -49,7 +49,7 @@ namespace Mistaken.BetterRP
             this.adrenalineNotReady.Clear();
         }
 
-        private void Player_ItemUsed(Exiled.Events.EventArgs.UsedItemEventArgs ev)
+        private void Player_UsedItem(Exiled.Events.EventArgs.UsedItemEventArgs ev)
         {
             if (ev.Player == null)
                 return;
@@ -76,7 +76,7 @@ namespace Mistaken.BetterRP
                 case DamageType.Scp939:
                 case DamageType.Scp0492:
                     {
-                        if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Team != ev.Target.Team)
+                        if (!this.adrenalineNotReady.Contains(ev.Target) && ev.Attacker?.Role.Team != ev.Target.Role.Team)
                             this.CallDelayed(0.1f, () => this.ActivateAdrenaline(ev.Target), "Adrenaline");
                         return;
                     }
@@ -91,7 +91,7 @@ namespace Mistaken.BetterRP
             var oldMovementBoostIntensityValue = movementBoost.Intensity;
             var oldMovementBoostDurationValue = movementBoost.Duration;
             player.ChangeEffectIntensity(EffectType.MovementBoost, 10, 5);
-            player.ActiveArtificialHealthProcesses.Add(new AhpStat.AhpProcess(10, 10, 1, 1, 5, false));
+            ((AhpStat)player.ReferenceHub.playerStats.StatModules[1])._activeProcesses.Add(new AhpStat.AhpProcess(10, 10, 1, 1, 5, false));
             this.CallDelayed(
                 6,
                 () =>

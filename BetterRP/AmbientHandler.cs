@@ -176,9 +176,9 @@ namespace Mistaken.BetterRP
             if (!ambient.IsReusable) UsedAmbients.Add(ambient.Id);
             jammed = ambient.IsJammed;
             return ambient.Message
-                .Replace("$classd", RealPlayers.List.Where(p => p.Team == Team.CDP).Count().ToString())
-                .Replace("$mtf", RealPlayers.List.Where(p => p.Team == Team.MTF).Count().ToString())
-                .Replace("$ci", RealPlayers.List.Where(p => p.Team == Team.CHI).Count().ToString());
+                .Replace("$classd", RealPlayers.List.Where(p => p.Role.Team == Team.CDP).Count().ToString())
+                .Replace("$mtf", RealPlayers.List.Where(p => p.Role.Team == Team.MTF).Count().ToString())
+                .Replace("$ci", RealPlayers.List.Where(p => p.Role.Team == Team.CHI).Count().ToString());
         }
 
         private void Server_RoundStarted()

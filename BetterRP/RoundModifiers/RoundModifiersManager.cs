@@ -82,10 +82,10 @@ namespace Mistaken.BetterRP.RoundModifiers
 
         public void ExecuteFags()
         {
-            foreach (var item in Map.Lifts)
-                item.Network_locked = false;
+            foreach (var item in Exiled.API.Features.Lift.List)
+                item.IsLocked = false;
 
-            foreach (var item in Map.Doors)
+            foreach (var item in Door.List)
             {
                 item.IsOpen = false;
                 item.Base.ActiveLocks = 0;
@@ -210,48 +210,48 @@ namespace Mistaken.BetterRP.RoundModifiers
                         case RandomEvents.LIFT_A_LOCKDOWN:
                             {
                                 locked.Add("LIGHT CONTAINMENT ZONE ELEVATOR A");
-                                foreach (var item in Map.Lifts.Where(e => e.Type() == Exiled.API.Enums.ElevatorType.LczA))
-                                    item.Network_locked = true;
+                                foreach (var item in Exiled.API.Features.Lift.List.Where(e => e.Type == Exiled.API.Enums.ElevatorType.LczA))
+                                    item.IsLocked = true;
                                 break;
                             }
 
                         case RandomEvents.LIFT_B_LOCKDOWN:
                             {
                                 locked.Add("LIGHT CONTAINMENT ZONE ELEVATOR B");
-                                foreach (var item in Map.Lifts.Where(e => e.Type() == Exiled.API.Enums.ElevatorType.LczB))
-                                    item.Network_locked = true;
+                                foreach (var item in Exiled.API.Features.Lift.List.Where(e => e.Type == Exiled.API.Enums.ElevatorType.LczB))
+                                    item.IsLocked = true;
                                 break;
                             }
 
                         case RandomEvents.GATE_A_ELEVATOR_LOCKDOWN:
                             {
-                                foreach (var item in Map.Lifts.Where(e => e.Type() == Exiled.API.Enums.ElevatorType.GateA))
-                                    item.Network_locked = true;
+                                foreach (var item in Exiled.API.Features.Lift.List.Where(e => e.Type == Exiled.API.Enums.ElevatorType.GateA))
+                                    item.IsLocked = true;
                                 break;
                             }
 
                         case RandomEvents.GATE_B_ELEVATOR_LOCKDOWN:
                             {
-                                foreach (var item in Map.Lifts.Where(e => e.Type() == Exiled.API.Enums.ElevatorType.GateB))
-                                    item.Network_locked = true;
+                                foreach (var item in Exiled.API.Features.Lift.List.Where(e => e.Type == Exiled.API.Enums.ElevatorType.GateB))
+                                    item.IsLocked = true;
                                 break;
                             }
 
                         case RandomEvents.SURFACE_GATE_LOCKDOWN:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.SurfaceGate))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.SurfaceGate))
                                     break;
                                 locked.Add("SURFACE GATE");
-                                Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.SurfaceGate).Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
+                                Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.SurfaceGate).Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
                                 break;
                             }
 
                         case RandomEvents.GATE_A_PERNAMENT_OPEN:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.GateA))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.GateA))
                                     break;
                                 open.Add("GATE A");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.GateA);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.GateA);
                                 door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
                                 door.IsOpen = true;
                                 break;
@@ -259,10 +259,10 @@ namespace Mistaken.BetterRP.RoundModifiers
 
                         case RandomEvents.GATE_B_PERNAMENT_OPEN:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.GateB))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.GateB))
                                     break;
                                 open.Add("GATE B");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.GateB);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.GateB);
                                 door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
                                 door.IsOpen = true;
                                 break;
@@ -270,10 +270,10 @@ namespace Mistaken.BetterRP.RoundModifiers
 
                         case RandomEvents.GATE_A_PERNAMENT_CLOSE:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.GateA))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.GateA))
                                     break;
                                 locked.Add("GATE A");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.GateA);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.GateA);
                                 door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
                                 door.IsOpen = false;
                                 break;
@@ -281,10 +281,10 @@ namespace Mistaken.BetterRP.RoundModifiers
 
                         case RandomEvents.GATE_B_PERNAMENT_CLOSE:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.GateB))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.GateB))
                                     break;
                                 locked.Add("GATE B");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.GateB);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.GateB);
                                 door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
                                 door.IsOpen = false;
                                 break;
@@ -292,26 +292,26 @@ namespace Mistaken.BetterRP.RoundModifiers
 
                         case RandomEvents.CHECKPOINT_EZ_PERNAMENT_OPEN:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointEntrance))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointEntrance))
                                     break;
                                 open.Add("CHECKPOINT ENTRANCE ZONE");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointEntrance);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointEntrance);
                                 door.BreakDoor();
                                 break;
                             }
 
                         case RandomEvents.ALL_DOORS_OPEN_AT_BEGINING:
                             {
-                                Map.Doors.Where(d => d.Type == Exiled.API.Enums.DoorType.EntranceDoor || d.Type == Exiled.API.Enums.DoorType.HeavyContainmentDoor || d.Type == Exiled.API.Enums.DoorType.LightContainmentDoor).Select(door => door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand);
+                                Door.List.Where(d => d.Type == Exiled.API.Enums.DoorType.EntranceDoor || d.Type == Exiled.API.Enums.DoorType.HeavyContainmentDoor || d.Type == Exiled.API.Enums.DoorType.LightContainmentDoor).Select(door => door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand);
                                 break;
                             }
 
                         case RandomEvents.CHECKPOINT_A_PERNAMENT_CLOSE:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA))
                                     break;
                                 locked.Add("CHECKPOINT A");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA);
                                 door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
                                 door.IsOpen = false;
                                 break;
@@ -319,10 +319,10 @@ namespace Mistaken.BetterRP.RoundModifiers
 
                         case RandomEvents.CHECKPOINT_B_PERNAMENT_CLOSE:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB))
                                     break;
                                 locked.Add("CHECKPOINT B");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB);
                                 door.Base.ActiveLocks = (byte)DoorLockReason.AdminCommand;
                                 door.IsOpen = false;
                                 break;
@@ -330,20 +330,20 @@ namespace Mistaken.BetterRP.RoundModifiers
 
                         case RandomEvents.CHECKPOINT_A_PERNAMENT_OPEN:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA))
                                     break;
                                 open.Add("CHECKPOINT A");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczA);
                                 door.BreakDoor();
                                 break;
                             }
 
                         case RandomEvents.CHECKPOINT_B_PERNAMENT_OPEN:
                             {
-                                if (!Map.Doors.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB))
+                                if (!Door.List.Any(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB))
                                     break;
                                 open.Add("CHECKPOINT B");
-                                var door = Map.Doors.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB);
+                                var door = Door.List.First(d => d.Type == Exiled.API.Enums.DoorType.CheckpointLczB);
                                 door.BreakDoor();
                                 break;
                             }
