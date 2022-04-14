@@ -62,7 +62,6 @@ namespace Mistaken.BetterRP
 
         private void Player_Hurting(Exiled.Events.EventArgs.HurtingEventArgs ev)
         {
-            return; // Powoduje zwiêkszone obra¿enia
             if (!ev.Target.IsHuman)
                 return;
 
