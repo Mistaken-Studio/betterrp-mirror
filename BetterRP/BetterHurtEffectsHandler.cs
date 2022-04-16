@@ -61,7 +61,7 @@ namespace Mistaken.BetterRP
             if (!ev.Target.IsHuman)
                 return;
 
-            if (ev.Target.WillDie(ev.Handler.Base))
+            if (ev.Target.WillDie((StandardDamageHandler)ev.Handler.Base))
                 return;
 
             if (!(ev.Attacker is null) && UnityEngine.Random.Range(0, 100) < ev.Amount / 5)
