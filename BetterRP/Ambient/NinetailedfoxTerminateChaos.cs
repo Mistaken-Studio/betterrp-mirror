@@ -21,7 +21,7 @@ namespace Mistaken.BetterRP.Ambients
         {
             if (base.CanPlay() == false)
                 return false;
-            return RealPlayers.List.Where(p => p.Team == Team.MTF).Count() > 5 && RealPlayers.List.Where(p => p.Team == Team.CHI).Count() > 10;
+            return RealPlayers.List.Where(p => p.Role.Team == Team.MTF).Count() > 5 && RealPlayers.List.Where(p => p.Role.Team == Team.CHI).Count() > 10;
         }
     }
 }

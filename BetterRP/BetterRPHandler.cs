@@ -31,14 +31,14 @@ namespace Mistaken.BetterRP
         /// <inheritdoc/>
         public override void OnEnable()
         {
-            Exiled.Events.Handlers.Player.ItemUsed += this.Player_ItemUsed;
+            Exiled.Events.Handlers.Player.UsedItem += this.Player_UsedItem;
             Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
         }
 
         /// <inheritdoc/>
         public override void OnDisable()
         {
-            Exiled.Events.Handlers.Player.ItemUsed -= this.Player_ItemUsed;
+            Exiled.Events.Handlers.Player.UsedItem -= this.Player_UsedItem;
             Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
         }
 
@@ -47,7 +47,7 @@ namespace Mistaken.BetterRP
         {
         }
 
-        private void Player_ItemUsed(Exiled.Events.EventArgs.UsedItemEventArgs ev)
+        private void Player_UsedItem(Exiled.Events.EventArgs.UsedItemEventArgs ev)
         {
             if (ev.Item.Type == ItemType.Medkit || ev.Item.Type == ItemType.SCP500)
             {
